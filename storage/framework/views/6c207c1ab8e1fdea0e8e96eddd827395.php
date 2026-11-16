@@ -1,0 +1,8 @@
+<?php $__env->startSection('content'); ?>
+<div class="panel"><div class="toolbar"><div><h1>Task List</h1><p class="muted">All active tasks.</p></div><?php if(auth()->guard()->check()): ?><a class="button" href="<?php echo e(route('tasks.create')); ?>">New Task</a><?php endif; ?></div>
+<table><thead><tr><th>Title</th><th>Task date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+<?php $__empty_1 = true; $__currentLoopData = $tasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><tr><td><a href="<?php echo e(route('tasks.show', $task)); ?>"><?php echo e($task->title); ?></a></td><td><?php echo e($task->task_date->format('M j, Y')); ?></td><td><?php echo e(ucfirst($task->status)); ?></td><td><?php if(auth()->guard()->check()): ?><a href="<?php echo e(route('tasks.edit', $task)); ?>">Edit</a> <form method="POST" action="<?php echo e(route('tasks.destroy', $task)); ?>" style="display:inline"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button type="submit" onclick="return confirm('Archive this task?')">Archive</button></form><?php else: ?><span class="muted">View only</span><?php endif; ?></td></tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><tr><td colspan="4">No active tasks yet.</td></tr><?php endif; ?>
+</tbody></table></div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\my-lv-app\resources\views/tasks/index.blade.php ENDPATH**/ ?>
